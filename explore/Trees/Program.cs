@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Trees
 {
@@ -22,17 +23,28 @@ namespace Trees
             if (Root == null)
             {
                 Root = new TreeNode<T>(value);
-            } else
+            }
+            else
             {
                 Root.Insert(value);
             }
         }
 
+        public void Insert(List<T> list)
+        {
+            foreach (var element in list)
+            {
+                this.Insert(element);
+            }
+        }
+
         public void Print(Traversal traverse)
         {
+            if (Root == null) { return; }
             if (traverse == Traversal.Inorder)
             {
-
+                Root.TraverseInOrder();
+                Console.WriteLine();
             } else if (traverse == Traversal.Postorder)
             {
 
@@ -53,6 +65,19 @@ namespace Trees
         public TreeNode(T data)
         {
             this.data = data;
+        }
+
+        public void TraverseInOrder()
+        {
+            if (Left != null)
+            {
+                Left.TraverseInOrder();
+            }
+            Console.Write(data.ToString() + ", ");
+            if (Right != null)
+            {
+                Right.TraverseInOrder();
+            }
         }
 
         public void Insert(T value)
@@ -93,7 +118,18 @@ namespace Trees
 
             // Tree with string type
             var stringTree = new StringTree();
-            stringTree.Insert("Hello");
+            var stringList = new List<string>(){"Hello", "how", "are", "you"};
+            stringTree.Insert(stringList);
+            
+            stringTree.Print(Traversal.Inorder);
+
+            var intTree = new IntTree();
+            var intList = new List<int>() { 1, 2, 59, 603, 10 };
+            intTree.Insert(intList);
+
+            intTree.Print(Traversal.Inorder);
+
+            Console.ReadLine();
         }
     }
 }
